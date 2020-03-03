@@ -1,0 +1,13 @@
+.form-left {
+    width: 100%;
+    max-width: 137.2px;
+    height: 100%;
+    background: $violet;
+    position: relative;
+
+    .form-left__signup {
+        position: absolute;
+        bottom: 22px;
+        right: 6px; 
+    }
+}
