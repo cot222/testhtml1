@@ -1,0 +1,186 @@
+.info-top {
+    .top-wrapper {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16.1px;
+
+        @include phone-only {
+            flex-wrap: wrap;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .top-item {
+            width: 100%;
+            max-width: 234.5px;
+            position: relative;
+
+            @include phone-only {
+                max-width: unset;
+                margin-bottom: 20px;
+            }
+            
+            label,
+            .gender-title {
+                display: block;
+                margin-bottom: 5px;
+                font-family: Work-Sans;
+                font-style: normal;
+                font-weight: 300;
+                font-size: 12rem;
+                line-height: 14rem;
+                cursor: pointer;
+                color: $grey;
+            }
+
+            .gender-title {
+                margin-bottom: 7.7px;
+            }
+            //общие стили для инпутов и списков
+            input,
+            select {
+                padding: 0 0 6px 0;
+                background: none;
+                border: none;
+                border-bottom: 0.7px solid $background-color;
+                font-family: Work-Sans;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14rem;
+                line-height: 16rem;
+                color: $black;
+
+                &:focus, 
+                &:active,
+                &:checked {
+                    border: none;
+                    outline: none;
+                    border-bottom: 0.7px solid $violet;
+                }
+
+                &::placeholder {
+                    color: rgba($grey, .5);
+                }
+            }
+
+            input {
+                width: 100%;
+            }
+            //отдельные стили списков для конкретных id
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                min-width: 56px;
+                padding-right: 20px;
+                background: url("/svg/sprite.svg#Arrow") no-repeat;
+                background-position: 100% 50%;
+                background-size: 10px 10px;
+                cursor: pointer;
+
+                &#DATE_YEAR {
+                    background-position: 100% 20%;
+                }
+
+                &#NATIONALITY {
+                    width: 100%;
+                    padding-right: 0;
+                    // background-size: 5% 60%;
+                    
+                }
+            }
+            
+            &.email-inp {
+                .valid-arrow {
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    width: 11px;
+                    height: 8px;
+                }
+            }
+
+            .item-date {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .item-gender {
+                display: flex;
+
+                .gender-wrapper {
+                    margin-left: 22px;
+
+                    &:first-child {
+                        margin-left: 0;
+                    }
+
+                    label {
+                        margin: 0;
+                    }
+
+                    input[type="radio"] {
+                        &:checked,
+                        &:not(:checked) {
+                            position: absolute;
+                            left: -9999px;
+                        }
+    
+                        &:checked + label,
+                        &:not(:checked) + label {
+                            display: inline-block;
+                            position: relative;
+                            padding-left: 18px;
+                            cursor: pointer;
+                            font-family: Work-Sans;
+                            font-style: normal;
+                            font-weight: 300;
+                            font-size: 12rem;
+                            line-height: 14rem;
+                            color: $grey;
+                        }
+    
+                        &:checked + label:before,
+                        &:not(:checked) + label:before {
+                            content: "";
+                            position: absolute;
+                            left: 0px;
+                            top: 0px;
+                            width: 12px;
+                            height: 12px;
+                            border: 0.7px solid $violet;
+                            border-radius: 100%;
+                            background-color: none;
+                        }
+    
+                        &:checked + label:after,
+                        &:not(:checked) + label:after {
+                            content: "";
+                            position: absolute;
+                            left: 3px;
+                            top: 3px;
+                            width: 6px;
+                            height: 6px;
+                            -webkit-transition: all 0.2s ease;
+                            -moz-transition: all 0.2s ease;
+                            -o-transition: all 0.2s ease;
+                            transition: all 0.2s ease;
+                            border-radius: 100%;
+                            background-color: $violet;
+                        }
+    
+                        &:not(:checked) + label:after {
+                            opacity: 0;
+                        }
+    
+                        &:checked + label:after {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

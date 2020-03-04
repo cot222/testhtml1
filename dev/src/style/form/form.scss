@@ -2,11 +2,15 @@
 @import "form-right/form-right.scss";
 
 .form {
-    max-width: 670px;
+    max-width: 665px;
     width: 100%;
     max-height: 480px;
     height: 100%;
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    background-color: $white;
+
+    @include phone-only {
+        max-height: unset;
+        height: auto;
+    }
 }

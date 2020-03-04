@@ -1,0 +1,39 @@
+.info-bottom {
+    margin-top: 99px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    .bottom-left {
+        p {
+            margin: 0;
+            font-family: Work-Sans;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 13rem;
+            line-height: 15rem;
+            color: $black;
+
+            a {
+                text-decoration: underline;
+                color: $violet; 
+            }
+        }
+    }
+
+    .bottom-right {
+        button {
+            padding: 7px 25px;
+            font-family: PTSans;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14rem;
+            line-height: 18rem;
+            color: $white;
+            border: none;
+            background: $violet;
+            cursor: pointer;
+        }
+    }
+}

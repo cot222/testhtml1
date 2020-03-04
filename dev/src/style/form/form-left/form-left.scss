@@ -5,9 +5,13 @@
     background: $violet;
     position: relative;
 
+    @include phone-only {
+        display: none;
+    }
+
     .form-left__signup {
         position: absolute;
         bottom: 22px;
-        right: 6px; 
+        right: 0; 
     }
 }

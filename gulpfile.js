@@ -9,7 +9,8 @@ const gulp = require('gulp'),
     svgSprite = require('gulp-svg-sprite'),
     svgmin = require('gulp-svgmin'),
     cheerio = require('gulp-cheerio'),
-    fileInclude = require('gulp-file-include');
+    fileInclude = require('gulp-file-include'),
+    concat = require('gulp-concat');
 
 var path = {
     build: {
@@ -17,19 +18,26 @@ var path = {
         js: 'public/js/',
         css: 'public/css/',
         svg: 'public/svg/',
+        fonts: 'public/fonts'
     },
     src: {
         htmlStart: 'dev/src/html/index.html',
         html: 'dev/src/html/*.html',
-        js: 'dev/src/js/script.js',
+        js: {
+            jquery: 'dev/libs/jquery/dist/jquery.min.js',
+            vivus: 'dev/libs/vivus/dist/vivus.min.js',
+            myscript: 'dev/src/js/script.js',
+        },
         style: 'dev/src/style/styles.scss',
         svg: 'dev/src/svg/*.svg',
+        fonts: 'dev/src/fonts/**/*.{woff,woff2,txt,ttf,otf}'
     },
     watch: {
         html: 'dev/src/**/*.html',
         js: 'dev/src/js/**/*.js',
         css: 'dev/src/style/**/*.scss',
         svg: 'dev/src/svg/*.svg',
+        fonts: 'dev/src/**/*.{woff,woff2,txt,ttf,otf}'
     },
     template: {
         svgSprite: 'dev/src/svg/template.html',
@@ -77,12 +85,12 @@ gulp.task('css:build', function () {
 });
 
 gulp.task('js:build', function () {
-    return gulp.src(path.src.js) // получим файл script.js
-        // .pipe(rigger()) // импортируем все указанные файлы в script.js
+    return gulp.src([path.src.js.jquery, path.src.js.vivus, path.src.js.myscript]) // получим файл script.js
+        .pipe(concat("script.js"))
         .pipe(gulp.dest(path.build.js))
-        .pipe(webserver.reload({ stream: true }))
         .pipe(rename({ suffix: '.min' }))
         .pipe(uglify()) // минимизируем js
+        .pipe(webserver.reload({ stream: true }))
         .pipe(gulp.dest(path.build.js)); // положим готовый файл
 });
 
@@ -105,6 +113,11 @@ gulp.task('svg:build', function () {
         .pipe(gulp.dest(path.build.svg));
 });
 
+gulp.task('fonts:build', function () {
+    return gulp.src(path.src.fonts)
+      .pipe(gulp.dest(path.build.fonts));
+});
+
 gulp.task('clean:build', function () {
     return gulp.src(path.clean, { read: false })
         // .pipe(rimraf());
@@ -115,6 +128,7 @@ gulp.task('build',
         'css:build',
         'js:build',
         'svg:build',
+        'fonts:build'
     )
 );
 

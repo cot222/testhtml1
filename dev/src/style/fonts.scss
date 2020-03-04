@@ -1,0 +1,4 @@
+@import "mixin-font";
+
+@include font-face("Work-Sans", "../fonts/Work/WorkSans-Regular");
+@include font-face("PTSans", "../fonts/PTSans/PTSans-Regular");
