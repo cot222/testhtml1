@@ -1,5 +1,5 @@
 .info-bottom {
-    margin-top: 99px;
+    margin-top: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -34,6 +34,25 @@
             border: none;
             background: $violet;
             cursor: pointer;
+        }
+    }
+
+    .submmit-error {
+        animation: submError .5s ease-in-out;
+
+        @keyframes submError {
+            from {
+                transform: translate(-40px,0);
+            }
+            50% {
+                transform: translate(20px,0);
+            }
+            80% {
+                transform: translate(-20px,0);
+            }
+            to {
+                transform: translate(0,0);
+            }
         }
     }
 }

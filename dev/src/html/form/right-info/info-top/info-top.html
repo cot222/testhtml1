@@ -1,12 +1,14 @@
 <div class="info-top">
     <div class="top-wrapper">
-        <div class="top-item">
+        <div class="top-item firstNameBlock">
             <label for="firstNameID" onclick="">First Name</label>
             <input id="firstNameID" type="text" placeholder="Your name">
+            <div id="firstNameError"></div>
         </div>
-        <div class="top-item">
+        <div class="top-item lastNameBlock">
             <label for="lastNameID" onclick="">Last Name</label>
             <input id="lastNameID" type="text" placeholder="Your last name">
+            <div id="lastNameError"></div>
         </div>
     </div>
     <div class="top-wrapper">
@@ -20,12 +22,13 @@
                 <option value="5">American</option>
             </select>
         </div>
-        <div class="top-item email-inp">
+        <div class="top-item emailBlock">
             <label for="emailID" onclick="">E-mail</label>
             <input id="emailID" type="text" placeholder="Your email">
             <div class="valid-arrow">
                 <svg class="valid-svg"><use xlink:href="/svg/sprite.svg#Valid"></use></svg>
             </div>
+            <div id="emailError"></div>
         </div>
     </div>
     <div class="top-wrapper">
@@ -87,13 +90,19 @@
         </div>
     </div>
     <div class="top-wrapper">
-        <div class="top-item">
+        <div class="top-item passBlock">
             <label for="passwordID" onclick="">Password</label>
             <input id="passwordID" type="text">
+            <div id="passError"></div>
         </div>
-        <div class="top-item">
+        <div class="top-item confpassBlock">
             <label for="confirmdID" onclick="">Confirm Password</label>
             <input id="confirmdID" type="text">
+            <div id="confirmPassError"></div>
         </div>
     </div>
+        <div class="form-success">
+        <h3>Thank You!</h3>
+        <h4>you registered!</h4>
+    </div>          
 </div>

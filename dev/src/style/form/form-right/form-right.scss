@@ -11,26 +11,5 @@
     @include phone-only {
         max-width: unset;
     }
-    //заголовок формы
-    .form-right__title {
-        font-family: Work-Sans;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 22rem;
-        line-height: 26rem;
-        letter-spacing: -0.46px;
-        color: $black;
-        margin: 0;
-    }
-    //описание под заголовком
-    .form-right__desc {
-        font-family: Work-Sans;
-        font-style: normal;
-        font-weight: 300;
-        font-size: 14rem;
-        line-height: 16rem;
-        color: $black;
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
+
 }

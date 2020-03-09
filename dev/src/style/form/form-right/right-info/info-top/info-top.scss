@@ -4,6 +4,7 @@
         justify-content: space-between;
         margin-bottom: 16.1px;
 
+
         @include phone-only {
             flex-wrap: wrap;
         }
@@ -17,6 +18,52 @@
             max-width: 234.5px;
             position: relative;
 
+            &:nth-child(1) {
+                animation: slowShow 1s ease-in-out;;
+            }
+            &:nth-child(2) {
+                animation: slowShow 1.5s ease-in-out;;
+            }
+            &:nth-child(3) {
+                animation: slowShow 2s ease-in-out;;
+            }
+            &:nth-child(4) {
+                animation: slowShow 2.25s ease-in-out;;
+            }
+            &:nth-child(5) {
+                animation: slowShow 2.5s ease-in-out;;
+            }
+            &:nth-child(6) {
+                animation: slowShow 2.75s ease-in-out;;
+            }
+            //класс для отображения ошибки(красный цвет,красное подчеркивание)
+            &.error {
+                input {
+                    color: $red;
+                    border-bottom: 0.7px solid $red;
+
+                    &:focus, 
+                    &:active,
+                    &:checked {
+                        border: none;
+                        outline: none;
+                        border-bottom: 0.7px solid $red;
+                    }
+                }
+            }
+
+            #firstNameError,
+            #lastNameError,
+            #emailError,
+            #passError,
+            #confirmPassError {
+                position: absolute;
+                bottom: -10px;
+                font-family: Work-Sans;
+                font-style: normal;
+                font-size: 10rem;
+                color: $red;
+            }
             @include phone-only {
                 max-width: unset;
                 margin-bottom: 20px;
@@ -33,6 +80,9 @@
                 line-height: 14rem;
                 cursor: pointer;
                 color: $grey;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
 
             .gender-title {
@@ -92,14 +142,22 @@
                 }
             }
             
-            &.email-inp {
+            &.emailBlock {
                 .valid-arrow {
                     position: absolute;
                     right: 0;
                     top: 50%;
                     width: 11px;
                     height: 8px;
-                }
+                    opacity: 0;
+                    transition: .3s;
+                } 
+                &.validMail {
+                    .valid-arrow {
+                        opacity: 1;
+                        transition: 1s;
+                    }
+                }  
             }
 
             .item-date {
@@ -181,6 +239,38 @@
                     }
                 }
             }
+        }
+    }
+
+    .form-success {
+        display: none;
+        transition: .5s;
+        padding: 216.52px 351px 152px 42.8px;
+        
+        h3 {
+            font-family: Work-Sans;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 22rem;
+            line-height: 26rem;
+            letter-spacing: -0.46px;
+            color: $black;
+        }
+
+        h4 {
+            font-family: Work-Sans;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 14rem;
+            line-height: 16rem;
+            color: $black;
+        }
+
+        &.active {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            transition: .5s;
         }
     }
 }

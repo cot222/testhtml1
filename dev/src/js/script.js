@@ -3,23 +3,28 @@ const validateForm = function() {
     let inpList = {
         firstNameInp: {
             el: $('#firstNameID'),
-            error: []
+            block: $('.firstNameBlock'),
+            error: $('#firstNameError')
         },
         lastNameInp: {
             el: $('#lastNameID'),
-            error: []
+            block: $('.lastNameBlock'),
+            error: $('#lastNameError')
         },
         emailInp: {
             el: $('#emailID'),
-            error: []
+            block: $('.emailBlock'),
+            error: $('#emailError')
         },
         passInp: {
             el: $('#passwordID'),
-            error: []
+            block: $('.passBlock'),
+            error: $('#passError')
         },
         confirmInp: {
             el: $('#confirmdID'),
-            error: []
+            block: $('.confpassBlock'),
+            error: $('#confirmPassError')
         }
     };
 
@@ -28,20 +33,49 @@ const validateForm = function() {
         email: 'Неверный формат email',
         empty: 'Поле не может быть пустым',
         name: 'Неверный формат(только буквы)',
-        passLength: 'Пароль должен быть не менее 8 символов',
-        passNotCompare: 'Пароли не совпадают',
-        easyPassword: 'Неверный формат пароля(заглавные и строчные буквы, а также цифры обязательны)'
+        pass: 'Неверный формат пароля',
+        passNotCompare: 'Пароли не совпадают'
     };
 
     //валидация email
     function validateEmail(email) {
         let pattern  = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern .test(email);
+        let result = { 
+            flag: false, 
+            error: '' 
+        };
+
+        result.flag = pattern .test(email);
+
+        if(result.flag === false) { 
+            if(email.split(' ').join('') == '') { 
+                result.error = errorList.empty; 
+            } else {
+                result.error = errorList.email; 
+            }
+        }
+
+        return result;
     }
     //валидация пароля
     function validatePass(pass) {
         let pattern  = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-        return pattern .test(pass);
+        let result = { 
+            flag: false, 
+            error: '' 
+        };
+
+        result.flag = pattern .test(pass);
+
+        if(result.flag === false) { 
+            if(pass.split(' ').join('') == '') { 
+                result.error = errorList.empty; 
+            } else {
+                result.error = errorList.pass; 
+            }
+        }
+
+        return result;
     }
     //валидация имени и фамилии
     function validateName(name) {
@@ -65,49 +99,251 @@ const validateForm = function() {
     }
     //сравнение паролей
     function comparePass(pass1, pass2) {
-        if(!pass1) { 
-            console.log('Введите пароль'); 
-        }
-        else if(pass1 === pass2) { 
-            console.log('Пароли совпали'); 
+        let result = { 
+            flag: false, 
+            error: '' 
+        };
+
+        if( pass1 !== pass2 ) {
+            result.error = errorList.passNotCompare;
         } else {
-            console.log('Пароли не совпали');
+            result.error = '';
         }
+
+        return result;
+    }
+    //функция очистки полей
+    function clearInputs() {
+        let clearElementsArr = [];
+        let successReg = $('.form-success');
+
+        clearElementsArr.push($('#MainForm .form-right .info-top .top-wrapper'));
+        clearElementsArr.push($('#MainForm .form-right .form-right__title'));
+        clearElementsArr.push($('#MainForm .form-right .form-right__desc'));
+        
+        for(let i = 0; i < clearElementsArr.length; i++) {
+            clearElementsArr[i].css('display', 'none');
+        }
+
+        successReg.addClass('active');
     }
 
-    for(let item in inpList) {
-        let current = inpList[item];
-
+    function validateData() {
         /*
-        * Проверяю каждый инпут на изменение,
-        * при этом определяю,какой именно инпут изменяется
-        * в данный момент,чтобы валидировать его соответствующими 
-        * функциями.
+        * Проверяю изменение или сабмит формы,
+        * если событие изменения,определяю какой именно
+        * инпут изменился, и с помощью switch делаю определенную 
+        * валидацию для соответствующего инпута.
+        * Если соытие сабмита,вызываю аналогичный цикл перебора объекта 
+        * инпутов и валидирую каждый из них,если ошибок после этой операции нету
+        * т.е все данные валидные,отправляю результат на файл server.json,
         */
-        current.el.change(function(e) {
-            switch(item) {
-                case 'firstNameInp': {
-                    let name = e.target.value;
-                    let result = validateName(name);
-                    current.error = result.error;
-                    console.log(current.error);
-                } break;
-                case 'lastNameInp': {
-                    console.log('lastNameInp');
-                } break;
-                case 'emailInp': {
-                    console.log('emailInp');
-                } break;
-                case 'passInp': {
-                    let pass = e.target.value;
-                    let result = validatePass(pass);
-                } break;
-                case 'confirmInp': {
-                    console.log('confirmInp');
-                } break;
+        $('#MainForm').on('change submit', function(e) {
+            let submButton = $('.bottom-right');
+
+            if(e.type == 'change') {
+                let currentInput = $(e.target);
+
+                for(let item in inpList) {
+                    let current;
+
+                    //сравниваю по id элемент объекта и измененный инпут
+                    if(inpList[item].el.attr('id') == currentInput.attr('id')) {
+                        current = inpList[item];
+
+                        //функция добавления/удаления класса ошибки
+                        function toggleError(currentVal) {
+                            let errorValue = currentVal.text();
+                            errorValue = errorValue.split(' ').join('');
+
+                            if(errorValue !== '') {
+                                (current.block).addClass('error');
+                            } else { 
+                                (current.block).removeClass('error'); 
+
+                            }
+                        }
+
+                        switch(item) {
+                            case 'firstNameInp': {
+                                let name = $(current.el).val();
+                                let result = validateName(name);
+
+                                //добавление ошибки
+                                let currentVal = current.error;
+                                currentVal.text(result.error);
+            
+                                toggleError(currentVal);
+                            } break;
+                            case 'lastNameInp': {
+                                let name = $(current.el).val();
+                                let result = validateName(name);
+
+                                //добавление ошибки
+                                let currentVal = current.error;
+                                currentVal.text(result.error);
+            
+                                toggleError(currentVal);
+                            } break;
+                            case 'emailInp': {
+                                let email = $(current.el).val();
+                                let result = validateEmail(email);
+
+                                //добавление ошибки
+                                let currentVal = current.error;
+                                //если валидно,добавляю галочку
+                                (result.flag) ? (current.block).addClass('validMail') : (current.block).removeClass('validMail');
+                                currentVal.text(result.error);
+            
+                                toggleError(currentVal);
+                            } break;
+                            case 'passInp': {
+                                let pass = $(current.el).val();
+                                let result = validatePass(pass);
+
+                                //добавление ошибки
+                                let currentVal = current.error;
+                                currentVal.text(result.error);
+            
+                                toggleError(currentVal);
+                            } break;
+                            case 'confirmInp': {
+                                let passMain = inpList.passInp.el;
+                                let passCurrent = $(current.el).val();
+            
+                                let result = comparePass(passMain.val(), passCurrent);
+
+                                //добавление ошибки
+                                let currentVal = current.error;
+                                currentVal.text(result.error);
+            
+                                toggleError(currentVal);
+                            } break;
+                        }
+                    }
+                }
+            }
+
+            if(e.type == 'submit') {
+                e.preventDefault();
+
+                function notValidEffect() {
+                    submButton.addClass('submmit-error');
+                    setTimeout(function() {
+                        submButton.removeClass('submmit-error');
+                    }, 500);
+                }
+
+                for(let item in inpList) {
+                    let current = inpList[item];
+
+                    //функция добавления/удаления класса ошибки
+                    function toggleError(currentVal) {
+                        let errorValue = currentVal.text();
+                        errorValue = errorValue.split(' ').join('');
+
+                        if(errorValue !== '') {
+                            (current.block).addClass('error');
+                        } else { 
+                            (current.block).removeClass('error'); 
+
+                        }
+                    }
+
+                    switch(item) {
+                        case 'firstNameInp': {
+                            let name = $(current.el).val();
+                            let result = validateName(name);
+
+                            //добавление ошибки
+                            let currentVal = current.error;
+                            currentVal.text(result.error);
+        
+                            toggleError(currentVal);
+                        } break;
+                        case 'lastNameInp': {
+                            let name = $(current.el).val();
+                            let result = validateName(name);
+
+                            //добавление ошибки
+                            let currentVal = current.error;
+                            currentVal.text(result.error);
+        
+                            toggleError(currentVal);
+                        } break;
+                        case 'emailInp': {
+                            let email = $(current.el).val();
+                            let result = validateEmail(email);
+
+                            //добавление ошибки
+                            let currentVal = current.error;
+                            //если валидно,добавляю галочку
+                            (result.flag) ? (current.block).addClass('validMail') : (current.block).removeClass('validMail');
+                            currentVal.text(result.error);
+        
+                            toggleError(currentVal);
+                        } break;
+                        case 'passInp': {
+                            let pass = $(current.el).val();
+                            let result = validatePass(pass);
+                            
+                            //добавление ошибки
+                            let currentVal = current.error;
+                            currentVal.text(result.error);
+        
+                            toggleError(currentVal);
+                        } break;
+                        case 'confirmInp': {
+                            let passMain = inpList.passInp.el;
+                            let passCurrent = $(current.el).val();
+        
+                            let result = comparePass(passMain.val(), passCurrent);
+
+                            //добавление ошибки
+                            let currentVal = current.error;
+                            currentVal.text(result.error);
+        
+                            toggleError(currentVal);
+                        } break;
+                    }
+                    
+                }
+
+                function errorCount() {
+                    let sum = 0;
+
+                    for(item in inpList) {
+                        sum = sum + inpList[item].error.text();
+                    }
+                
+                    let result = sum.split(' ').join('');
+
+                    return result.length;
+                }
+
+                let resultError = errorCount() - 1;
+
+                if(resultError == 0) {
+                    $.ajax({
+                        method: "GET",
+                        url: "../server.json",
+                        success: function(data) {
+                            clearInputs();
+                            alert('Данные отправлены');
+                        },
+                        error: function(data) {
+                            notValidEffect();
+                        }
+                    })
+                } else {
+                    notValidEffect();
+                }
             }
         })
+
     }
+    validateData();
+    
 
 }
 validateForm();

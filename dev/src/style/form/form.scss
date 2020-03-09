@@ -13,4 +13,18 @@
         max-height: unset;
         height: auto;
     }
+
+    @keyframes slowShow {
+        from {
+            opacity: 0;
+            transform: translate(0, 50px);
+        }
+        50% {
+            opacity: .5;
+        }
+        to {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+    }
 }
