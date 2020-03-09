@@ -14,7 +14,7 @@ const gulp = require('gulp'),
 
 var path = {
     build: {
-        html: 'public/demo/',
+        html: 'public/',
         js: 'public/js/',
         css: 'public/css/',
         svg: 'public/svg/',
@@ -45,12 +45,12 @@ var path = {
     template: {
         svgSprite: 'dev/src/svg/template.html',
     },
-    clean: 'public/demo/*'
+    clean: 'public/'
 };
 
 /* настройки сервера */
 var ws_config = {
-    startPath: 'demo/index.html',
+    startPath: 'index.html',
     server: {
         baseDir: 'public'
     },
