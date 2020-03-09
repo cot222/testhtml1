@@ -1,3 +1,4 @@
+
 const validateForm = function() {
     //объект для хранения текстовых инпутов
     let inpList = {
@@ -118,9 +119,11 @@ const validateForm = function() {
         let successReg = $('.form-success');
 
         clearElementsArr.push($('#MainForm .form-right .info-top .top-wrapper'));
-        clearElementsArr.push($('#MainForm .form-right .form-right__title'));
-        clearElementsArr.push($('#MainForm .form-right .form-right__desc'));
+        clearElementsArr.push($('#MainForm .form-right .right-info__title'));
+        clearElementsArr.push($('#MainForm .form-right .right-info__desc'));
         
+        $('#MainForm input').val('');
+
         for(let i = 0; i < clearElementsArr.length; i++) {
             clearElementsArr[i].css('display', 'none');
         }

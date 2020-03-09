@@ -241,13 +241,15 @@
             }
         }
     }
-
+    //окно,которое появляется послу успешного отправления
     .form-success {
         display: none;
         transition: .5s;
-        padding: 216.52px 351px 152px 42.8px;
-        
+        margin-top: 178.2px;
+        padding-left: 42.8px;
+
         h3 {
+            margin-bottom: 11px;
             font-family: Work-Sans;
             font-style: normal;
             font-weight: 500;
@@ -258,6 +260,7 @@
         }
 
         h4 {
+            margin: 0;
             font-family: Work-Sans;
             font-style: normal;
             font-weight: 300;

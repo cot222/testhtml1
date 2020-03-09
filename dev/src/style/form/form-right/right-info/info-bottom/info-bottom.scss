@@ -5,6 +5,7 @@
     justify-content: space-between;
     align-items: center;
 
+    //левая часть
     .bottom-left {
         p {
             margin: 0;
@@ -21,7 +22,7 @@
             }
         }
     }
-
+    //правая(кнопка сабмита)
     .bottom-right {
         button {
             padding: 7px 25px;
@@ -36,7 +37,7 @@
             cursor: pointer;
         }
     }
-
+    //ошибка сабмита(кнопка трясется)
     .submmit-error {
         animation: submError .5s ease-in-out;
 

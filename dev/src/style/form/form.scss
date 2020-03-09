@@ -13,7 +13,7 @@
         max-height: unset;
         height: auto;
     }
-
+    //анимация последовательного появления элементов
     @keyframes slowShow {
         from {
             opacity: 0;

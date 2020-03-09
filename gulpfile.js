@@ -18,7 +18,8 @@ var path = {
         js: 'public/js/',
         css: 'public/css/',
         svg: 'public/svg/',
-        fonts: 'public/fonts'
+        fonts: 'public/fonts',
+        json: 'public/'
     },
     src: {
         htmlStart: 'dev/src/html/index.html',
@@ -30,14 +31,16 @@ var path = {
         },
         style: 'dev/src/style/styles.scss',
         svg: 'dev/src/svg/*.svg',
-        fonts: 'dev/src/fonts/**/*.{woff,woff2,txt,ttf,otf}'
+        fonts: 'dev/src/fonts/**/*.{woff,woff2,txt,ttf,otf}',
+        json: 'dev/'
     },
     watch: {
         html: 'dev/src/**/*.html',
         js: 'dev/src/js/**/*.js',
         css: 'dev/src/style/**/*.scss',
         svg: 'dev/src/svg/*.svg',
-        fonts: 'dev/src/**/*.{woff,woff2,txt,ttf,otf}'
+        fonts: 'dev/src/**/*.{woff,woff2,txt,ttf,otf}',
+        json: 'dev/'
     },
     template: {
         svgSprite: 'dev/src/svg/template.html',
@@ -70,6 +73,12 @@ gulp.task('html:build', function () {
             basepath: '@file'
         }))
         .pipe(gulp.dest(path.build.html)) // выкладывание готовых файлов
+        .pipe(webserver.reload({ stream: true })); // перезагрузка сервера
+});
+
+gulp.task('json:build', function () {
+    return gulp.src(path.src.json) // выбор всех html файлов по указанному пути
+        .pipe(gulp.dest(path.build.json)) // выкладывание готовых файлов
         .pipe(webserver.reload({ stream: true })); // перезагрузка сервера
 });
 
@@ -128,7 +137,8 @@ gulp.task('build',
         'css:build',
         'js:build',
         'svg:build',
-        'fonts:build'
+        'fonts:build',
+        'json:build'
     )
 );
 
@@ -137,6 +147,7 @@ gulp.task('watch', function () {
     gulp.watch(path.watch.css, gulp.series('css:build'));
     gulp.watch(path.watch.js, gulp.series('js:build'));
     gulp.watch(path.watch.svg, gulp.series('svg:build'));
+    gulp.watch(path.watch.json, gulp.series('json:build')); 
 });
 
 gulp.task('watch:webserver', gulp.series(
